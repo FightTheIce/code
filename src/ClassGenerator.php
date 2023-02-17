@@ -3,7 +3,6 @@
 namespace FightTheIce\Code;
 
 use Laminas\Code\Generator\ClassGenerator as Laminas_ClassGenerator;
-use FightTheIce\Code\TypeHintGenerator;
 use Laminas\Code\Generator\TypeGenerator;
 use Dflydev\DotAccessData\Data;
 use Nette\PhpGenerator\Factory;

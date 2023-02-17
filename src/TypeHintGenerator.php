@@ -25,7 +25,7 @@ class TypeHintGenerator {
         }
 
         $type = trim($type);
-        if (empty($type)) {
+        if (strlen($type)==0) {
             throw new Exception(self::class.'::__construct expects parameter $type to be a non empty string!');
         }
 

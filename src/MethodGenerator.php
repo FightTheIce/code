@@ -45,8 +45,6 @@ class MethodGenerator extends Laminas_MethodGenerator {
     }
 
     public function codeGenerator(): CodeGenerator {
-        $code = new CodeGenerator($this->getBody(),$this);
-
-        return $code;
+        return new CodeGenerator($this->getBody(),$this);
     }
 }
