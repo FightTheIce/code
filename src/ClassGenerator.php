@@ -62,14 +62,14 @@ class ClassGenerator extends Laminas_ClassGenerator {
         
         //should we set a short description?
         if ($this->dotAccess->get('docblock.short_description',true)===true) {
-            $property->setDocBlockShortDescription($name);
+            $property->addDocBlockShortDescription($name);
         }
 
-        $property->setDocBlockLongDescription($desc);
+        $property->addDocBlockLongDescription($desc);
         
         //should we set an access tag?
         if ($this->dotAccess->get('docblock.access_tag',true)===true) {
-            $property->setDocBlockTag('access',$access);
+            $property->addDocBlockTag('access',$access);
         }
 
         return $property;
@@ -90,14 +90,14 @@ class ClassGenerator extends Laminas_ClassGenerator {
 
         //should we set a short description?
         if ($this->dotAccess->get('docblock.short_description',true)===true) {
-            $property->setDocBlockShortDescription($name);
+            $property->addDocBlockShortDescription($name);
         }
 
-        $property->setDocBlockLongDescription($desc);
+        $property->addDocBlockLongDescription($desc);
         
         //should we set an access tag?
         if ($this->dotAccess->get('docblock.access_tag',true)===true) {
-            $property->setDocBlockTag('access',$access);
+            $property->addDocBlockTag('access',$access);
         }
 
         return $property;
@@ -133,14 +133,14 @@ class ClassGenerator extends Laminas_ClassGenerator {
 
         //should we set a short description?
         if ($this->dotAccess->get('docblock.short_description',true)===true) {
-            $method->setDocBlockShortDescription($name);
+            $method->addDocBlockShortDescription($name);
         }
 
-        $method->setDocBlockLongDescription($desc);
+        $method->addDocBlockLongDescription($desc);
         
         //should we set an access tag?
         if ($this->dotAccess->get('docblock.access_tag',true)===true) {
-            $method->setDocBlockTag('access',$access);
+            $method->addDocBlockTag('access',$access);
         }
 
         return $method;
