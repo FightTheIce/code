@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace FightTheIce\Code\Traits;
 
-use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\DocBlock\Tag\GenericTag;
+use Laminas\Code\Generator\DocBlockGenerator;
 
-trait DocBlockerTrait {
-    public function getDocBlockGenerator(): DocBlockGenerator {
+trait DocBlockerTrait
+{
+    public function getDocBlockGenerator(): DocBlockGenerator
+    {
         //we should check for the method "getDocBlock"
 
         $docblock = $this->getDocBlock();
@@ -22,19 +24,22 @@ trait DocBlockerTrait {
         return $docblock;
     }
 
-    public function addDocBlockShortDescription(string $desc): self {
+    public function addDocBlockShortDescription(string $desc): self
+    {
         $this->getDocBlockGenerator()->setShortDescription($desc);
 
         return $this;
     }
 
-    public function addDocBlockLongDescription(string $desc): self {
+    public function addDocBlockLongDescription(string $desc): self
+    {
         $this->getDocBlockGenerator()->setLongDescription($desc);
 
         return $this;
     }
 
-    public function addDocBlockTag(string $tag, string $value): self {
+    public function addDocBlockTag(string $tag, string $value): self
+    {
         $this->getDocBlockGenerator()->setTag(new GenericTag(
             $tag,
             $value
