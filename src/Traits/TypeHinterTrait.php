@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FightTheIce\Code\Traits;
 
 use FightTheIce\Code\TypeHintGenerator;

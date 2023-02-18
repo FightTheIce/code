@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FightTheIce\Code;
 
 use Laminas\Code\Generator\ClassGenerator as Laminas_ClassGenerator;
@@ -56,6 +58,7 @@ class ClassGenerator extends Laminas_ClassGenerator {
 
         $property = $this->newProperty($name,$defaultValue,$flagBits,$typeHintGenerator->getTypeGenerator());
         $property->setTypeHintGenerator($typeHintGenerator);
+        $property->omitDefaultValue($omitDefaultValue);
         
         //should we set a short description?
         if ($this->dotAccess->get('docblock.short_description',true)===true) {
@@ -83,6 +86,7 @@ class ClassGenerator extends Laminas_ClassGenerator {
         };
 
         $property = $this->newProperty($name,$defaultValue,$flagBits,null);
+        $property->omitDefaultValue($omitDefaultValue);
 
         //should we set a short description?
         if ($this->dotAccess->get('docblock.short_description',true)===true) {
@@ -152,7 +156,7 @@ class ClassGenerator extends Laminas_ClassGenerator {
         $code = parent::generate();
 
         if ($formatCode===true) {
-            $nette = new Factory;
+            $nette = new Factory();
             $class = $nette->fromCode('<?php'.PHP_EOL.$code);
 
             $code = trim(str_replace('<?php','',$class->__toString()));
@@ -161,7 +165,7 @@ class ClassGenerator extends Laminas_ClassGenerator {
         return $code;
     }
 
-    public function saveToFile(string $filename) {
+    public function saveToFile(string $filename): void {
         file_put_contents($filename,'<?php'.PHP_EOL.PHP_EOL.$this->generate());
     }
 }

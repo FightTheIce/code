@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FightTheIce\Code;
 
 use Laminas\Code\Generator\TypeGenerator;
@@ -25,13 +27,13 @@ class TypeHintGenerator {
         }
 
         $type = trim($type);
-        if (strlen($type)==0) {
+        if (strlen($type)===0) {
             throw new Exception(self::class.'::__construct expects parameter $type to be a non empty string!');
         }
 
         $this->typeHint = $type;
         $this->baseHint = $type;
-        if (substr($type,0,1)=='?') {
+        if (substr($type,0,1)==='?') {
             $this->baseHint = substr($type,1);
             $this->nullable = true;
         }

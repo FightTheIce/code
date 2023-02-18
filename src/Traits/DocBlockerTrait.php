@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FightTheIce\Code\Traits;
 
 use Laminas\Code\Generator\DocBlockGenerator;
@@ -11,7 +13,7 @@ trait DocBlockerTrait {
 
         $docblock = $this->getDocBlock();
         if (is_null($docblock)) {
-            $docblock = new DocBlockGenerator;
+            $docblock = new DocBlockGenerator();
 
             //we should check for the method "setDocBlock"
             $this->setDocBlock($docblock);

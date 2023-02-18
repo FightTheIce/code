@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FightTheIce\Code;
 
 use Laminas\Code\Generator\BodyGenerator;
@@ -19,8 +21,10 @@ class CodeGenerator extends BodyGenerator {
         }
     }
     
-    public function setAbstractGenerator(AbstractGenerator $abstract) {
+    public function setAbstractGenerator(AbstractGenerator $abstract): self {
         $this->abstract = $abstract;
+
+        return $this;
     }
 
     public function finish(): AbstractGenerator {
