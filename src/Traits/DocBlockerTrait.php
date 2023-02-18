@@ -22,19 +22,19 @@ trait DocBlockerTrait {
         return $docblock;
     }
 
-    public function setDocBlockShortDescription(string $desc): self {
+    public function addDocBlockShortDescription(string $desc): self {
         $this->getDocBlockGenerator()->setShortDescription($desc);
 
         return $this;
     }
 
-    public function setDocBlockLongDescription(string $desc): self {
+    public function addDocBlockLongDescription(string $desc): self {
         $this->getDocBlockGenerator()->setLongDescription($desc);
 
         return $this;
     }
 
-    public function setDocBlockTag(string $tag, string $value): self {
+    public function addDocBlockTag(string $tag, string $value): self {
         $this->getDocBlockGenerator()->setTag(new GenericTag(
             $tag,
             $value
