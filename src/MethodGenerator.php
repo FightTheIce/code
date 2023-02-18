@@ -48,7 +48,7 @@ class MethodGenerator extends Laminas_MethodGenerator {
         $typeHintGenerator = new TypeHintGenerator($type);
 
         $parameter = $this->newParameter($name,$typeHintGenerator->getTypeGenerator(),$defaultValue,null,false);
-        $parameter->setTypeHintGenerator($typeHintGenerator);
+        $parameter->addTypeHintGenerator($typeHintGenerator);
         $parameter->setDefaultValue($defaultValue);
         $parameter->omitDefaultValue($omitDefaultValue);
         $parameter->setType($typeHintGenerator->getTypeHint());

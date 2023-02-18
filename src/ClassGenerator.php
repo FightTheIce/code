@@ -57,7 +57,7 @@ class ClassGenerator extends Laminas_ClassGenerator {
         };
 
         $property = $this->newProperty($name,$defaultValue,$flagBits,$typeHintGenerator->getTypeGenerator());
-        $property->setTypeHintGenerator($typeHintGenerator);
+        $property->addTypeHintGenerator($typeHintGenerator);
         $property->omitDefaultValue($omitDefaultValue);
         
         //should we set a short description?
@@ -124,7 +124,7 @@ class ClassGenerator extends Laminas_ClassGenerator {
         };
 
         $method = $this->newMethod($name,[],$flagBits,null,null);
-        $method->setTypeHintGenerator($typeHintGenerator);
+        $method->addTypeHintGenerator($typeHintGenerator);
 
         //set the return type
         if (!in_array($name,array('__construct','__destruct'))) {
