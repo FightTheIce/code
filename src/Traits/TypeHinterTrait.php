@@ -6,16 +6,19 @@ namespace FightTheIce\Code\Traits;
 
 use FightTheIce\Code\TypeHintGenerator;
 
-trait TypeHinterTrait {
+trait TypeHinterTrait
+{
     protected ?TypeHintGenerator $typeHintGenerator = null;
 
-    public function setTypeHintGenerator(TypeHintGenerator $typeHint): self {
+    public function setTypeHintGenerator(TypeHintGenerator $typeHint): self
+    {
         $this->typeHintGenerator = $typeHint;
 
         return $this;
     }
 
-    public function getTypeHintGenerator(): TypeHintGenerator {
+    public function getTypeHintGenerator(): TypeHintGenerator
+    {
         return $this->typeHintGenerator;
     }
 }
