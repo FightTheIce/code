@@ -7,6 +7,8 @@ namespace FightTheIce\Code;
 use Laminas\Code\Generator\DocBlock\Tag\ParamTag;
 use Laminas\Code\Generator\MethodGenerator as Laminas_MethodGenerator;
 use Laminas\Code\Generator\TypeGenerator;
+use Laminas\Code\Reflection\ClassReflection;
+use Exception;
 
 class MethodGenerator extends Laminas_MethodGenerator
 {
@@ -68,5 +70,49 @@ class MethodGenerator extends Laminas_MethodGenerator
     public function codeGenerator(): CodeGenerator
     {
         return new CodeGenerator($this->getBody(), $this);
+    }
+
+    public function importMethodBodyFromReflection(string $class, string $method, bool $bestFixIndentation = true) {
+        $reflection = new ClassReflection($class);
+
+        if ($reflection->hasMethod($method) === false) {
+            throw new Exception($class.' does not have a method called: '.$method.'!');
+        }
+
+        $method = $reflection->getMethod($method);
+
+        $body = $method->getBody();
+
+        //replace "\t" with 4 spaces
+        $body = str_replace("\t",'    ',$body);
+        $lines = preg_split("/\R/", $body); 
+        
+        //count the lines
+        $cLines = count($lines);
+
+        $eCount = 0;
+
+        for ($a=0; $a<$cLines; $a++) {
+            if (empty($lines[$a])) {
+                continue;
+            }
+
+            $segments = explode(' ',$lines[$a]);
+            foreach ($segments as $seg) {
+                if (empty($seg)) {
+                    $eCount++;
+                } else {
+                    break;
+                }
+            }
+            break;
+        }
+
+        foreach ($lines as &$line) {
+            $find = str_repeat(' ',$eCount);
+            $line = str_replace($find,'',$line);
+        }
+
+        $this->setBody(implode(PHP_EOL,$lines));
     }
 }

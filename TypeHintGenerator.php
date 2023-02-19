@@ -176,6 +176,6 @@ class TypeHintGenerator
 		    return null;
 		}
 
-	    return TypeGenerator::fromTypeString($this->typeHint);
+		return TypeGenerator::fromTypeString($this->typeHint);
 	}
 }

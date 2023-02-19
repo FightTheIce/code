@@ -8,6 +8,8 @@ use Laminas\Code\Generator\ClassGenerator as Laminas_ClassGenerator;
 use Laminas\Code\Generator\TypeGenerator;
 use Dflydev\DotAccessData\Data;
 use Nette\PhpGenerator\Factory;
+use Laminas\Code\Generator\DocBlock\Tag\PropertyTag;
+use Exception;
 
 class ClassGenerator extends Laminas_ClassGenerator {
     use Traits\DocBlockerTrait;
@@ -15,7 +17,12 @@ class ClassGenerator extends Laminas_ClassGenerator {
     protected array $config = [
         'docblock' => [
             'short_description' => true,
-            'access_tag' => true
+            'access_tag' => true,
+            'property_tag' => true
+        ],
+        'generation' => [
+            'alphabetical_order_uses' => true,
+            'replace_slashes' => true
         ]
     ];
 
@@ -72,6 +79,11 @@ class ClassGenerator extends Laminas_ClassGenerator {
             $property->addDocBlockTag('access',$access);
         }
 
+        //should we set a property tag?
+        if ($this->dotAccess->get('docblock.property_tag',true)===true) {
+            $property->getDocBlock()->setTag(new PropertyTag($name,$typeHintGenerator->getVarTag(),$desc));
+        }
+
         return $property;
     }
 
@@ -100,6 +112,11 @@ class ClassGenerator extends Laminas_ClassGenerator {
             $property->addDocBlockTag('access',$access);
         }
 
+        //should we set a property tag?
+        if ($this->dotAccess->get('docblock.property_tag',true)===true) {
+            $property->getDocBlock()->setTag(new PropertyTag($name,null,$desc));
+        }
+
         return $property;
     }
 
@@ -111,7 +128,7 @@ class ClassGenerator extends Laminas_ClassGenerator {
         return $method;
     }
 
-    public function addClassMethod(string $access, string $name, string $desc, string $returnTypeHint): MethodGenerator {
+    public function addTypedClassMethod(string $access, string $name, string $desc, string $returnTypeHint): MethodGenerator {
         $access = trim(strtolower($access));
 
         $typeHintGenerator = new TypeHintGenerator($returnTypeHint);
@@ -128,7 +145,7 @@ class ClassGenerator extends Laminas_ClassGenerator {
 
         //set the return type
         if (!in_array($name,array('__construct','__destruct'))) {
-            $method->setReturnType($typeHintGenerator->getTypeGenerator());
+            $method->setReturnType($typeHintGenerator->getTypeHint());
         }
 
         //should we set a short description?
@@ -153,19 +170,146 @@ class ClassGenerator extends Laminas_ClassGenerator {
     }
 
     public function generate(bool $formatCode = true) {
+        //lets abc order our "use" statments
+        if ($this->dotAccess->get('generation.alphabetical_order_uses',true) === true) {
+            //this may already be done via Laminas so in the future we may not have to
+            $this->abcOrderUseStatements();
+        }
+
+        //store and remove all use statements so we can "str_replace" them without "\" markers later
+        $uses = $this->getUses();
+
         $code = parent::generate();
+
+        if ($this->dotAccess->get('generation.replace_slashes',true) === true) {
+            //lets "str_replace" all "\" markers (or at least the ones we can)
+            $actions = $this->replaceSlashMarkers($code,$uses);
+            $code = $actions['code'];
+        }
 
         if ($formatCode===true) {
             $nette = new Factory();
             $class = $nette->fromCode('<?php'.PHP_EOL.$code);
 
-            $code = trim(str_replace('<?php','',$class->__toString()));
+            $code = trim(str_replace('<?php','',$class->__toString())).PHP_EOL;
         }
 
         return $code;
     }
 
-    public function saveToFile(string $filename): void {
-        file_put_contents($filename,'<?php'.PHP_EOL.PHP_EOL.$this->generate());
+    protected function replaceSlashMarkers(string $code, array $uses = []): array  {
+        $originalUses = $uses;
+
+        $storable = [];
+
+        $uses[] = 'self';
+        $uses[] = 'static';
+        foreach ($uses as $use) {
+            $fqcn = $use;
+            $alias = null;
+            $class = null;
+
+            //namespace and alias segments
+            $segments = explode(' as ',$use);
+
+            if (count($segments) == 2) {
+                $fqcn = reset($segments);
+                $alias = end($segments);
+            }
+
+            //class segments
+            $cSegments = explode('\\',$fqcn);
+            $class = end($cSegments);
+
+            $find = '\\'.$class;
+            $replace = $class;
+
+            $fullStr = 'use '.$fqcn.';';
+            if (!is_null($alias)) {
+                $fullStr = rtrim($fullStr,';').' as '.$alias.';';
+            }
+
+            //replace the "use" statement with nothing
+            $code = str_replace($fullStr,'',$code);
+
+            //replace the "\{Class}" with "{Class}"
+            $code = str_replace($find,$replace,$code);
+
+            //set our storable unit
+            if (!in_array($class,array('self','static'))) {
+                $storable[] = $fullStr;
+            }
+        }
+
+        //do we have a namespace name?
+        $ns = $this->getNamespaceName();
+        if (strlen($ns)>0) {
+            $find = 'namespace '.$ns.';';
+            
+            //replace the namespace with the namespace + use statements
+            $replace = $find.PHP_EOL.PHP_EOL.implode(PHP_EOL,$storable);
+
+            $code = str_replace($find,$replace,$code);
+        } else {
+            $code = implode(PHP_EOL,$storable).PHP_EOL.$code;
+        }
+
+        return array(
+            'uses' => $originalUses,
+            'replacements' => $uses,
+            'code' => $code
+        );
+    }
+
+    protected function abcOrderUseStatements() {
+        $uses = $this->getUses();
+        $useStmts = array();
+        $classes = array();
+
+        foreach ($uses as $use) {
+            $class = $use;
+            $alias = null;
+            $segments = explode(' as ',$use);
+
+            if (count($segments)==2) {
+                $class = reset($segments);
+                $alias = end($segments);
+            }
+
+            $useStmts[$class] = array(
+                'class' => $class,
+                'alias' => $alias
+            );
+            $classes[] = $class;
+
+            $this->removeUse($class);
+        }
+
+        $sorted = sort($classes);
+        if ($sorted === false) {
+            throw new Exception('Sorted function failed!');
+        }
+        
+        foreach ($classes as $sclass) {
+            if (!isset($useStmts[$sclass])) {
+                throw new Exception('Unable to located sorted class: '.$sclass);
+            }
+
+            $use = $useStmts[$sclass];
+
+            $this->addUse($use['class'],$use['alias']);
+        }
+    }
+
+    public function saveToFile(string $filename, bool $strict = true): void {
+        $code = $this->generate();
+
+        if ($strict === true) {
+            $code = 'declare(strict_types=1);'.PHP_EOL.PHP_EOL.$code;
+        }
+
+        $code = '<?php'.PHP_EOL.PHP_EOL.$code;
+
+        file_put_contents($filename,$code);
     }
 }
