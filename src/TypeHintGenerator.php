@@ -27,8 +27,8 @@ class TypeHintGenerator
      *
      * @access protected
      *
-     * @property string|null $baseHint The base hint of the type hint (ie. ?string,
-     * would be string)
+     * @property string|null $baseHint The base hint of the type hint
+     * (ie. ?string, would be string)
      */
     protected ?string $baseHint;
 
@@ -66,7 +66,8 @@ class TypeHintGenerator
     public function __construct(?string $type = null)
     {
         if ($this->inited === true) {
-            throw new Exception(self::class.'::__construct has already been initialzed!');
+            $message = self::class.'::__construct has already been initialzed!';
+            throw new Exception($message);
         }
 
         $this->inited = true;
@@ -79,7 +80,8 @@ class TypeHintGenerator
 
         $type = trim($type);
         if (strlen($type) === 0) {
-            throw new Exception(self::class.'::__construct expects parameter $type to be a non empty string!');
+            $msg = self::class.'::__construct expects parameter $type to be a non empty string!';
+            throw new Exception($msg);
         }
 
         $this->typeHint = $type;
@@ -117,7 +119,8 @@ class TypeHintGenerator
     /**
      * getBaseType
      *
-     * Returns the base type hint (i.e. If ?string then this would return string)
+     * Returns the base type hint
+     * (i.e. If ?string then this would return string)
      *
      * @access public
      */
@@ -163,8 +166,8 @@ class TypeHintGenerator
     /**
      * getTypeGenerator
      *
-     * Returns the Laminas\Code\GeneratorTypeGenerator object or null if one isn't
-     * able to be created
+     * Returns the Laminas\Code\GeneratorTypeGenerator object or
+     * null if one isn't able to be created
      *
      * @access public
      */
