@@ -35,4 +35,26 @@ class ClassGenerator extends Laminas_ClassGenerator
 
         return $property;
     }
+
+    public function setDocBlockShortDescription(string $desc): self {
+        $docblock = $this->getDocBlock();
+        if (is_null($docblock)) {
+            $docblock = new DocBlockGenerator();
+        }
+
+        $docblock->setShortDescription($desc);
+
+        return $this;
+    }
+
+    public function setDocBlockLongDescription(string $desc): self {
+        $docblock = $this->getDocBlock();
+        if (is_null($docblock)) {
+            $docblock = new DocBlockGenerator();
+        }
+
+        $docblock->setLongDescription($desc);
+
+        return $this;
+    }
 }
