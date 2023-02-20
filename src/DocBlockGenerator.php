@@ -17,7 +17,7 @@ use Laminas\Code\Generator\DocBlockGenerator as Laminas_DocBlockGenerator;
 
 class DocBlockGenerator extends Laminas_DocBlockGenerator
 {
-    public function newAuthorTag(mixed $authorName = null, mixed $authorEmail = null): AuthorTag
+    public function newAuthorTag(?string $authorName = null, ?string $authorEmail = null): AuthorTag
     {
         $tag = new AuthorTag($authorName, $authorEmail);
 
@@ -26,7 +26,7 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
         return $tag;
     }
 
-    public function newGenericTag(mixed $name = null, mixed $content = null): GenericTag
+    public function newGenericTag(?string $name = null, ?string $content = null): GenericTag
     {
         $tag = new GenericTag($name, $content);
 
@@ -35,7 +35,7 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
         return $tag;
     }
 
-    public function newLicenseTag(mixed $url = null, mixed $licenseName = null): LicenseTag
+    public function newLicenseTag(?string $url = null, ?string $licenseName = null): LicenseTag
     {
         $tag = new LicenseTag($url, $licenseName);
 
@@ -44,7 +44,7 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
         return $tag;
     }
 
-    public function newMethodTag(mixed $methodName = null, array $types = [], mixed $description = null, bool $isStatic = false): MethodTag
+    public function newMethodTag(?string $methodName = null, array $types = [], ?string $description = null, bool $isStatic = false): MethodTag
     {
         $tag = new MethodTag($methodName, $types, $description, $isStatic);
 
@@ -53,7 +53,7 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
         return $tag;
     }
 
-    public function newParamTag(mixed $variableName = null, array $types = [], mixed $description = null): ParamTag
+    public function newParamTag(?string $variableName = null, array $types = [], ?string $description = null): ParamTag
     {
         $tag = new ParamTag($variableName, $types, $description);
 
@@ -62,7 +62,7 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
         return $tag;
     }
 
-    public function newPropertyTag(mixed $propertyName = null, array $types = [], mixed $description = null): PropertyTag
+    public function newPropertyTag(?string $propertyName = null, array $types = [], ?string $description = null): PropertyTag
     {
         $tag = new PropertyTag($propertyName, $types, $description);
 
@@ -71,7 +71,7 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
         return $tag;
     }
 
-    public function newReturnTag(array $types = [], mixed $description = null): ReturnTag
+    public function newReturnTag(array $types = [], ?string $description = null): ReturnTag
     {
         $tag = new ReturnTag($types, $description);
 
@@ -80,7 +80,7 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
         return $tag;
     }
 
-    public function newThrowsTag(array $types = [], mixed $description = null): ThrowsTag
+    public function newThrowsTag(array $types = [], ?string $description = null): ThrowsTag
     {
         $tag = new ThrowsTag($types, $description);
 

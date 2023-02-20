@@ -9,7 +9,7 @@ use Laminas\Code\Generator\PromotedParameterGenerator;
 
 class MethodGenerator extends Laminas_MethodGenerator
 {
-    public function newDocBlockGenerator(mixed $shortDescription = null, mixed $longDescription = null, array $tags = []): DocBlockGenerator
+    public function newDocBlockGenerator(?string $shortDescription = null, ?string $longDescription = null, array $tags = []): DocBlockGenerator
     {
         $docblock = new DocBlockGenerator($shortDescription, $longDescription, $tags);
 
@@ -18,7 +18,7 @@ class MethodGenerator extends Laminas_MethodGenerator
         return $docblock;
     }
 
-    public function newParameterGenerator(mixed $name = null, mixed $type = null, mixed $defaultValue = null, mixed $position = null, mixed $passByReference = null): ParameterGenerator
+    public function newParameterGenerator(?string $name = null, ?string $type = null, mixed $defaultValue = null, int $position = null, bool $passByReference = null): ParameterGenerator
     {
         $parameter = new ParameterGenerator($name, $type, $defaultValue, $position, $passByReference);
 

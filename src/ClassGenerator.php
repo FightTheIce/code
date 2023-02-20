@@ -9,7 +9,7 @@ use Laminas\Code\Generator\TypeGenerator;
 
 class ClassGenerator extends Laminas_ClassGenerator
 {
-    public function newDocBlockGenerator(mixed $shortDescription = null, mixed $longDescription = null, array $tags = []): DocBlockGenerator
+    public function newDocBlockGenerator(string $shortDescription = null, string $longDescription = null, array $tags = []): DocBlockGenerator
     {
         $docblock = new DocBlockGenerator($shortDescription, $longDescription, $tags);
 
@@ -18,7 +18,7 @@ class ClassGenerator extends Laminas_ClassGenerator
         return $docblock;
     }
 
-    public function newMethodGenerator(mixed $name = null, array $parameters = [], int $flags = MethodGenerator::FLAG_PUBLIC, mixed $body = null, mixed $docBlock = null): MethodGenerator
+    public function newMethodGenerator(string $name = null, array $parameters = [], int $flags = MethodGenerator::FLAG_PUBLIC, string $body = null, DocBlockGenerator|string $docBlock = null): MethodGenerator
     {
         $method = new MethodGenerator($name, $parameters, $flags, $body, $docBlock);
 
