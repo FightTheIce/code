@@ -53,7 +53,8 @@ return [
     'exclude' => [
         //  'path/to/directory-or-file'
         'test.php',
-        'phpinsights.php'
+        'phpinsights.php',
+        'src2'
     ],
 
     'add' => [
@@ -70,6 +71,7 @@ return [
         \SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff::class,
         \SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff::class,
         \SlevomatCodingStandard\Sniffs\TypeHints\DisallowMixedTypeHintSniff::class,
+        \NunoMaduro\PhpInsights\Domain\Insights\CyclomaticComplexityIsHigh::class,
     ],
 
     'config' => [
