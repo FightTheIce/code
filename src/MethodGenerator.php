@@ -30,7 +30,7 @@ class MethodGenerator extends Laminas_MethodGenerator
 	public function newParameter(
 		?string $name = null,
 		?TypeGenerator $type = null,
-		$defaultValue = null,
+		mixed $defaultValue = null,
 		?int $position = null,
 		bool $passByReference = false,
 	): ParameterGenerator {
@@ -58,7 +58,7 @@ class MethodGenerator extends Laminas_MethodGenerator
 		string $type,
 		string $name,
 		string $desc,
-		$defaultValue = null,
+		mixed $defaultValue = null,
 		bool $omitDefaultValue = false,
 	): ParameterGenerator {
 		$typeHintGenerator = new TypeHintGenerator($type);
@@ -90,7 +90,7 @@ class MethodGenerator extends Laminas_MethodGenerator
 	public function addMethodParameter(
 		string $name,
 		string $desc,
-		$defaultValue = null,
+		mixed $defaultValue = null,
 		bool $omitDefaultValue = false,
 	): ParameterGenerator {
 		$parameter = $this->newParameter($name, null, $defaultValue, null, false);
@@ -137,18 +137,22 @@ class MethodGenerator extends Laminas_MethodGenerator
 		    $eCount = 0;
 
 		    for ($a=0; $a<$cLines; $a++) {
-		if (empty($lines[$a])) {
+		$line = trim($lines[$a]);
+
+		if (strlen($line) === 0) {
 		    continue;
 		}
 
 		$segments = explode(' ',$lines[$a]);
 		foreach ($segments as $seg) {
-		    if (empty($seg)) {
+		    $segTest = trim($seg);
+		    if (strlen($segTest) === 0) {
 		$eCount++;
 		    } else {
 		break;
 		    }
 		}
+
 		break;
 		    }
 
