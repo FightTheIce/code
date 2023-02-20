@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace FightTheIce\Code;
 
-use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\MethodGenerator as Laminas_MethodGenerator;
-use Laminas\Code\Generator\ParameterGenerator;
 use Laminas\Code\Generator\PromotedParameterGenerator;
 
 class MethodGenerator extends Laminas_MethodGenerator
