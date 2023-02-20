@@ -9,26 +9,54 @@ use Laminas\Code\Generator\TypeGenerator;
 
 class ClassGenerator extends Laminas_ClassGenerator
 {
-    public function newDocBlockGenerator(?string $shortDescription = null, ?string $longDescription = null, array $tags = []): DocBlockGenerator
-    {
-        $docblock = new DocBlockGenerator($shortDescription, $longDescription, $tags);
+    /**
+     * @param array{AbstractTypeableTag|string} $tags
+     */
+    public function newDocBlockGenerator(
+        ?string $shortDescription = null,
+        ?string $longDescription = null,
+        array $tags = []
+    ): DocBlockGenerator {
+        $docblock = new DocBlockGenerator(
+            $shortDescription,
+            $longDescription,
+            $tags
+        );
 
         $this->setDocBlock($docblock);
 
         return $docblock;
     }
 
-    public function newMethodGenerator(?string $name = null, array $parameters = [], int $flags = MethodGenerator::FLAG_PUBLIC, ?string $body = null, DocBlockGenerator|string|null $docBlock = null): MethodGenerator
-    {
-        $method = new MethodGenerator($name, $parameters, $flags, $body, $docBlock);
+    /**
+     * @param array{ParameterGenerator|string} $parameters
+     */
+    public function newMethodGenerator(
+        ?string $name = null,
+        array $parameters = [],
+        int $flags = MethodGenerator::FLAG_PUBLIC,
+        ?string $body = null,
+        DocBlockGenerator|string|null $docBlock = null
+    ): MethodGenerator {
+        $method = new MethodGenerator(
+            $name,
+            $parameters,
+            $flags,
+            $body,
+            $docBlock
+        );
 
         $this->addMethodFromGenerator($method);
 
         return $method;
     }
 
-    public function newPropertyGenerator(?string $name = null, mixed $defaultValue = null, int $flags = PropertyGenerator::FLAG_PUBLIC, ?TypeGenerator $type = null): PropertyGenerator
-    {
+    public function newPropertyGenerator(
+        ?string $name = null,
+        mixed $defaultValue = null,
+        int $flags = PropertyGenerator::FLAG_PUBLIC,
+        ?TypeGenerator $type = null
+    ): PropertyGenerator {
         $property = new PropertyGenerator($name, $defaultValue, $flags, $type);
 
         $this->addPropertyFromGenerator($property);
@@ -36,7 +64,8 @@ class ClassGenerator extends Laminas_ClassGenerator
         return $property;
     }
 
-    public function setDocBlockShortDescription(string $desc): self {
+    public function setDocBlockShortDescription(string $desc): self
+    {
         $docblock = $this->getDocBlock();
         if (is_null($docblock)) {
             $docblock = new DocBlockGenerator();
@@ -47,7 +76,8 @@ class ClassGenerator extends Laminas_ClassGenerator
         return $this;
     }
 
-    public function setDocBlockLongDescription(string $desc): self {
+    public function setDocBlockLongDescription(string $desc): self
+    {
         $docblock = $this->getDocBlock();
         if (is_null($docblock)) {
             $docblock = new DocBlockGenerator();

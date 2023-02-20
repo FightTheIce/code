@@ -52,7 +52,8 @@ return [
 
     'exclude' => [
         //  'path/to/directory-or-file'
-        'test.php'
+        'test.php',
+        'phpinsights.php'
     ],
 
     'add' => [
@@ -63,7 +64,8 @@ return [
 
     'remove' => [
         //  ExampleInsight::class,
-        \NunoMaduro\PhpInsights\Domain\Sniffs\ForbiddenSetterSniff::class
+        \NunoMaduro\PhpInsights\Domain\Sniffs\ForbiddenSetterSniff::class,
+        \NunoMaduro\PhpInsights\Domain\Insights\ForbiddenNormalClasses::class,
     ],
 
     'config' => [
