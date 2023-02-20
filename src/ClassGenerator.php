@@ -169,7 +169,7 @@ class ClassGenerator extends Laminas_ClassGenerator {
         return $this;
     }
 
-    public function generate(bool $formatCode = true) {
+    public function generate(bool $formatCode = true, array $transforms = []) {
         //lets abc order our "use" statments
         if ($this->dotAccess->get('generation.alphabetical_order_uses',true) === true) {
             //this may already be done via Laminas so in the future we may not have to
@@ -192,6 +192,23 @@ class ClassGenerator extends Laminas_ClassGenerator {
             $class = $nette->fromCode('<?php'.PHP_EOL.$code);
 
             $code = trim(str_replace('<?php','',$class->__toString())).PHP_EOL;
+        }
+
+        //do we have any additional tranformations to do?
+        foreach ($transforms as $transform) {
+            if (!is_array($transform)) {
+                throw new Exception('Transformer must be an array!');
+            }
+
+            if (!array_key_exists('str',$transform)) {
+                throw new Exception('Transformer does not have a str');
+            }
+
+            if (!array_key_exists('replace',$transform)) {
+                throw new Exception('Transformer does not have a replacement!');
+            }
+
+            $code = str_replace($transform['str'],$transform['replace'],$code);
         }
 
         return $code;
@@ -301,8 +318,8 @@ class ClassGenerator extends Laminas_ClassGenerator {
         }
     }
 
-    public function saveToFile(string $filename, bool $strict = true): void {
-        $code = $this->generate();
+    public function saveToFile(string $filename, bool $strict = true, array $transforms = []): void {
+        $code = $this->generate(true,$transforms);
 
         if ($strict === true) {
             $code = 'declare(strict_types=1);'.PHP_EOL.PHP_EOL.$code;
