@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FightTheIce\Code;
 
-use FightTheIce\Code\ParameterGenerator as CodeParameterGenerator;
 use Laminas\Code\Generator\ParameterGenerator as Laminas_ParameterGenerator;
 use Laminas\Code\Generator\PropertyValueGenerator;
 use SplArrayObject;

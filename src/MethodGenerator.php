@@ -18,7 +18,7 @@ class MethodGenerator extends Laminas_MethodGenerator
         return $docblock;
     }
 
-    public function newParameterGenerator(?string $name = null, ?string $type = null, mixed $defaultValue = null, int $position = null, bool $passByReference = null): ParameterGenerator
+    public function newParameterGenerator(?string $name = null, ?string $type = null, mixed $defaultValue = null, ?int $position = null, ?bool $passByReference = null): ParameterGenerator
     {
         $parameter = new ParameterGenerator($name, $type, $defaultValue, $position, $passByReference);
 
