@@ -69,6 +69,7 @@ return [
         \SlevomatCodingStandard\Sniffs\Commenting\UselessFunctionDocCommentSniff::class,
         \SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff::class,
         \SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff::class,
+        \SlevomatCodingStandard\Sniffs\TypeHints\DisallowMixedTypeHintSniff::class,
     ],
 
     'config' => [
