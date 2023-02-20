@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace FightTheIce\Code;
 
 use Laminas\Code\Generator\ClassGenerator as Laminas_ClassGenerator;
-use Laminas\Code\Generator\TypeGenerator;
 use Laminas\Code\Generator\PropertyGenerator;
 use Laminas\Code\Generator\PropertyValueGenerator;
+use Laminas\Code\Generator\TypeGenerator;
 
 class ClassGenerator extends Laminas_ClassGenerator
 {
     /**
      * @param array<\Laminas\Code\Generator\DocBlock\Tag\TagInterface> $tags
+     *
      * @return DocBlockGenerator
      */
     public function newDocBlockGenerator(

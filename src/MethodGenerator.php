@@ -6,8 +6,8 @@ namespace FightTheIce\Code;
 
 use Exception;
 use Laminas\Code\Generator\MethodGenerator as Laminas_MethodGenerator;
-use Laminas\Code\Generator\PromotedParameterGenerator;
 use Laminas\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\PromotedParameterGenerator;
 
 class MethodGenerator extends Laminas_MethodGenerator
 {
