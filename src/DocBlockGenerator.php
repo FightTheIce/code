@@ -51,7 +51,7 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
     }
 
     /**
-     * @param array{string}    $types
+     * @param array<string>    $types
      */
     public function newMethodTag(
         ?string $methodName = null,
@@ -67,7 +67,7 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
     }
 
     /**
-     * @param array{string} $types
+     * @param array<string> $types
      */
     public function newParamTag(
         ?string $variableName = null,
@@ -82,7 +82,7 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
     }
 
     /**
-     * @param array{string} $types
+     * @param array<string> $types
      */
     public function newPropertyTag(
         ?string $propertyName = null,
@@ -97,7 +97,7 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
     }
 
     /**
-     * @param array{string} $types
+     * @param array<string> $types
      */
     public function newReturnTag(
         array $types = [],
@@ -111,7 +111,7 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
     }
 
     /**
-     * @param array{string} $types
+     * @param array<string> $types
      */
     public function newThrowsTag(
         array $types = [],
@@ -125,7 +125,7 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
     }
 
     /**
-     * @param array{string} $types
+     * @param array<string> $types
      */
     public function newVarTag(
         ?string $variableName = null,

@@ -17,10 +17,12 @@
         "laminas/laminas-code": "^4.8",
         "nette/php-generator": "^4.0",
         "nikic/php-parser": "^4.15",
-        "dflydev/dot-access-data": "^3.0"
+        "dflydev/dot-access-data": "^3.0",
+        "laminas/laminas-stdlib": "^3.16"
     },
     "require-dev": {
-        "nunomaduro/phpinsights": "^2.7"
+        "nunomaduro/phpinsights": "^2.7",
+        "vimeo/psalm": "^5.7"
     },
     "config": {
         "allow-plugins": {

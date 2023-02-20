@@ -6,11 +6,14 @@ namespace FightTheIce\Code;
 
 use Laminas\Code\Generator\ClassGenerator as Laminas_ClassGenerator;
 use Laminas\Code\Generator\TypeGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
+use Laminas\Code\Generator\PropertyValueGenerator;
 
 class ClassGenerator extends Laminas_ClassGenerator
 {
     /**
-     * @param array{AbstractTypeableTag|string} $tags
+     * @param array<\Laminas\Code\Generator\DocBlock\Tag\TagInterface> $tags
+     * @return DocBlockGenerator
      */
     public function newDocBlockGenerator(
         ?string $shortDescription = null,
@@ -29,7 +32,7 @@ class ClassGenerator extends Laminas_ClassGenerator
     }
 
     /**
-     * @param array{ParameterGenerator|string} $parameters
+     * @param array<ParameterGenerator> $parameters
      */
     public function newMethodGenerator(
         ?string $name = null,
@@ -51,9 +54,12 @@ class ClassGenerator extends Laminas_ClassGenerator
         return $method;
     }
 
+    /**
+     * @param  PropertyValueGenerator|string|array|null  $defaultValue
+     */
     public function newPropertyGenerator(
         ?string $name = null,
-        mixed $defaultValue = null,
+        PropertyValueGenerator|string|array|null $defaultValue = null,
         int $flags = PropertyGenerator::FLAG_PUBLIC,
         ?TypeGenerator $type = null
     ): PropertyGenerator {

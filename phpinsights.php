@@ -66,6 +66,9 @@ return [
         //  ExampleInsight::class,
         \NunoMaduro\PhpInsights\Domain\Sniffs\ForbiddenSetterSniff::class,
         \NunoMaduro\PhpInsights\Domain\Insights\ForbiddenNormalClasses::class,
+        \SlevomatCodingStandard\Sniffs\Commenting\UselessFunctionDocCommentSniff::class,
+        \SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff::class,
+        \SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff::class,
     ],
 
     'config' => [
