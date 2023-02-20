@@ -68,10 +68,6 @@ class MethodGenerator extends Laminas_MethodGenerator
             );
         }
 
-        if (strlen($name) <= 0) {
-            throw new Exception('name must not be empty!');
-        }
-
         $parameter = new PromotedParameterGenerator(
             $name,
             $type,

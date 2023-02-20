@@ -33,7 +33,7 @@ class ClassGenerator extends Laminas_ClassGenerator
     }
 
     /**
-     * @param array<ParameterGenerator> $parameters
+     * @param array<\Laminas\Code\Generator\ParameterGenerator> $parameters
      */
     public function newMethodGenerator(
         ?string $name = null,
@@ -56,11 +56,11 @@ class ClassGenerator extends Laminas_ClassGenerator
     }
 
     /**
-     * @param  PropertyValueGenerator|string|array|null  $defaultValue
+     * @param array<mixed>|PropertyValueGenerator|string|null  $defaultValue
      */
     public function newPropertyGenerator(
         ?string $name = null,
-        PropertyValueGenerator|string|array|null $defaultValue = null,
+        array|PropertyValueGenerator|string|null $defaultValue = null,
         int $flags = PropertyGenerator::FLAG_PUBLIC,
         ?TypeGenerator $type = null
     ): PropertyGenerator {
