@@ -8,6 +8,6 @@ use Laminas\Code\Generator\PropertyGenerator as Laminas_PropertyGenerator;
 
 class PropertyGenerator extends Laminas_PropertyGenerator
 {
-    use Traits\DocBlockerTrait;
-    use Traits\TypeHinterTrait;
+	use Traits\DocBlockerTrait;
+	use Traits\TypeHinterTrait;
 }
