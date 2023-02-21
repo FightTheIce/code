@@ -80,6 +80,11 @@ return [
         //  ExampleInsight::class => [
         //      'key' => 'value',
         //  ],
+        \SlevomatCodingStandard\Sniffs\Functions\FunctionLengthSniff::class => [
+            'exclude' => [
+                'src/MethodGenerator.php'
+            ]
+        ]
     ],
 
     /*

@@ -89,9 +89,17 @@ class MethodGenerator extends Laminas_MethodGenerator
         return $parameter;
     }
 
-    public function importSource(string $class, ?string $method = null): self
-    {
-        $method = is_null($method) ? $this->getName() : $method;
+    public function importSource(
+        ClassGenerator|string $class,
+        ?string $method = null
+    ): self {
+        if ($class instanceof ClassGenerator) {
+            $class = $class->getName();
+        }
+
+        if (is_null($method)) {
+            $method = $this->getName();
+        }
 
         /**
          * @psalm-suppress ArgumentTypeCoercion
@@ -99,7 +107,7 @@ class MethodGenerator extends Laminas_MethodGenerator
         $reflect = new ClassReflection($class); //@phpstan-ignore-line
 
         if ($reflect->hasMethod($method) === false) {
-            throw new Exception('Reflection error');
+            throw new Exception('Reflection has no method!');
         }
 
         $body = $reflect->getMethod($method)->getBody();
