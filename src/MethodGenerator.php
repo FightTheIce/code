@@ -91,9 +91,7 @@ class MethodGenerator extends Laminas_MethodGenerator
 
     public function importSource(string $class, ?string $method = null): self
     {
-        if (is_null($method)) {
-            $method = $this->getName();
-        }
+        $method = is_null($method) ? $this->getName() : $method;
 
         /**
          * @psalm-suppress ArgumentTypeCoercion
@@ -101,15 +99,27 @@ class MethodGenerator extends Laminas_MethodGenerator
         $reflect = new ClassReflection($class); //@phpstan-ignore-line
 
         if ($reflect->hasMethod($method) === false) {
-            throw new Exception(
-                'Class '.$class.' does not have method: '.$method.'!'
-            );
+            throw new Exception('Reflection error');
         }
 
-        $method = $reflect->getMethod($method);
+        $body = $reflect->getMethod($method)->getBody();
+        $lines = preg_split('/\R/', $body);
 
-        //DODO - Fix indendation problems
-        $this->setBody($method->getBody());
+        if (! $lines) {
+            throw new Exception('Method body');
+        }
+
+        foreach ($lines as &$line) {
+            $segments = explode('    ', $line);
+
+            if (count($segments) > 2) {
+                array_shift($segments);
+                array_shift($segments);
+                $line = implode('    ', $segments);
+            }
+        }
+
+        $this->setBody(trim(implode(PHP_EOL, $lines)));
 
         return $this;
     }
