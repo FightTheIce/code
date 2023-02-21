@@ -11,24 +11,7 @@ use Laminas\Code\Generator\PromotedParameterGenerator;
 
 class MethodGenerator extends Laminas_MethodGenerator
 {
-    /**
-     * @param array<\Laminas\Code\Generator\DocBlock\Tag\TagInterface> $tags
-     */
-    public function newDocBlockGenerator(
-        ?string $shortDescription = null,
-        ?string $longDescription = null,
-        array $tags = []
-    ): DocBlockGenerator {
-        $docblock = new DocBlockGenerator(
-            $shortDescription,
-            $longDescription,
-            $tags
-        );
-
-        $this->setDocBlock($docblock);
-
-        return $docblock;
-    }
+    use Traits\DocBlockerTrait;
 
     public function newParameterGenerator(
         ?string $name = null,
@@ -46,6 +29,30 @@ class MethodGenerator extends Laminas_MethodGenerator
         );
 
         $this->setParameter($parameter);
+
+        return $parameter;
+    }
+
+    public function addTypedParameter(
+        string $name,
+        string $desc,
+        string $type,
+        mixed $defaultValue = null,
+        bool $omitDefaultValue = false
+    ): ParameterGenerator {
+        $parameter = $this->newParameterGenerator($name, $type, $defaultValue);
+        $parameter->setDefaultValue($defaultValue);
+        $parameter->omitDefaultValue($omitDefaultValue);
+
+        $dTypes = [];
+        if (substr($type, 0, 1) === '?') {
+            $dTypes[] = substr($type, 1);
+            $dTypes[] = 'null';
+        } else {
+            $dTypes = explode('|', $type);
+        }
+
+        $this->imposeFTIDocBlock()->newParamTag($name, $dTypes, $desc);
 
         return $parameter;
     }
@@ -79,29 +86,5 @@ class MethodGenerator extends Laminas_MethodGenerator
         $this->setParameter($parameter);
 
         return $parameter;
-    }
-
-    public function setDocBlockShortDescription(string $desc): self
-    {
-        $docblock = $this->getDocBlock();
-        if (is_null($docblock)) {
-            $docblock = new DocBlockGenerator();
-        }
-
-        $docblock->setShortDescription($desc);
-
-        return $this;
-    }
-
-    public function setDocBlockLongDescription(string $desc): self
-    {
-        $docblock = $this->getDocBlock();
-        if (is_null($docblock)) {
-            $docblock = new DocBlockGenerator();
-        }
-
-        $docblock->setLongDescription($desc);
-
-        return $this;
     }
 }

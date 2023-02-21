@@ -79,4 +79,9 @@ class PropertyGenerator extends Laminas_PropertyGenerator
 
         return $value;
     }
+
+    public function hasDocBlock(): bool
+    {
+        return ! is_null($this->getDocBlock());
+    }
 }

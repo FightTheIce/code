@@ -72,6 +72,8 @@ return [
         \SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff::class,
         \SlevomatCodingStandard\Sniffs\TypeHints\DisallowMixedTypeHintSniff::class,
         \NunoMaduro\PhpInsights\Domain\Insights\CyclomaticComplexityIsHigh::class,
+        \NunoMaduro\PhpInsights\Domain\Insights\ForbiddenTraits::class,
+        \SlevomatCodingStandard\Sniffs\Classes\SuperfluousTraitNamingSniff::class,
     ],
 
     'config' => [
