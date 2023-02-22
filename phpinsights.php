@@ -82,7 +82,14 @@ return [
         //  ],
         \SlevomatCodingStandard\Sniffs\Functions\FunctionLengthSniff::class => [
             'exclude' => [
-                'src/MethodGenerator.php'
+                'src/MethodGenerator.php',
+                'src/FileGenerator.php',
+                'src/Utils.php',
+            ]
+        ],
+        \PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff::class => [
+            'exclude' => [
+                'src/Utils.php'
             ]
         ]
     ],

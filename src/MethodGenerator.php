@@ -13,6 +13,7 @@ use Laminas\Code\Reflection\ClassReflection;
 class MethodGenerator extends Laminas_MethodGenerator
 {
     use Traits\DocBlockerTrait;
+    use Traits\ImposeFtiTrait;
 
     public function newParameterGenerator(
         ?string $name = null,
@@ -45,15 +46,11 @@ class MethodGenerator extends Laminas_MethodGenerator
         $parameter->setDefaultValue($defaultValue);
         $parameter->omitDefaultValue($omitDefaultValue);
 
-        $dTypes = [];
-        if (substr($type, 0, 1) === '?') {
-            $dTypes[] = substr($type, 1);
-            $dTypes[] = 'null';
-        } else {
-            $dTypes = explode('|', $type);
-        }
-
-        $this->imposeFTIDocBlock()->newParamTag($name, $dTypes, $desc);
+        $this->imposeFTIDocBlock()->newParamTag(
+            $name,
+            Utils::createTypesArray($type),
+            $desc
+        );
 
         return $parameter;
     }
@@ -94,7 +91,13 @@ class MethodGenerator extends Laminas_MethodGenerator
         ?string $method = null
     ): self {
         if ($class instanceof ClassGenerator) {
-            $class = $class->getName();
+            $name = $class->getName();
+            $namespace = $class->getNamespaceName();
+            if (! is_null($namespace)) {
+                $name = $namespace.'\\'.$name;
+            }
+
+            $class = $name;
         }
 
         if (is_null($method)) {

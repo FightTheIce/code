@@ -17,37 +17,39 @@ use Laminas\Code\Generator\DocBlockGenerator as Laminas_DocBlockGenerator;
 
 class DocBlockGenerator extends Laminas_DocBlockGenerator
 {
+    use Traits\ImposeFtiTrait;
+
     public function newAuthorTag(
         ?string $authorName = null,
         ?string $authorEmail = null
-    ): AuthorTag {
+    ): self {
         $tag = new AuthorTag($authorName, $authorEmail);
 
         $this->setTag($tag);
 
-        return $tag;
+        return $this;
     }
 
     public function newGenericTag(
         ?string $name = null,
         ?string $content = null
-    ): GenericTag {
+    ): self {
         $tag = new GenericTag($name, $content);
 
         $this->setTag($tag);
 
-        return $tag;
+        return $this;
     }
 
     public function newLicenseTag(
         ?string $url = null,
         ?string $licenseName = null
-    ): LicenseTag {
+    ): self {
         $tag = new LicenseTag($url, $licenseName);
 
         $this->setTag($tag);
 
-        return $tag;
+        return $this;
     }
 
     /**
@@ -58,12 +60,12 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
         array $types = [],
         ?string $description = null,
         bool $isStatic = false
-    ): MethodTag {
+    ): self {
         $tag = new MethodTag($methodName, $types, $description, $isStatic);
 
         $this->setTag($tag);
 
-        return $tag;
+        return $this;
     }
 
     /**
@@ -73,12 +75,12 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
         ?string $variableName = null,
         array $types = [],
         ?string $description = null
-    ): ParamTag {
+    ): self {
         $tag = new ParamTag($variableName, $types, $description);
 
         $this->setTag($tag);
 
-        return $tag;
+        return $this;
     }
 
     /**
@@ -88,12 +90,12 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
         ?string $propertyName = null,
         array $types = [],
         ?string $description = null
-    ): PropertyTag {
+    ): self {
         $tag = new PropertyTag($propertyName, $types, $description);
 
         $this->setTag($tag);
 
-        return $tag;
+        return $this;
     }
 
     /**
@@ -102,12 +104,12 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
     public function newReturnTag(
         array $types = [],
         ?string $description = null
-    ): ReturnTag {
+    ): self {
         $tag = new ReturnTag($types, $description);
 
         $this->setTag($tag);
 
-        return $tag;
+        return $this;
     }
 
     /**
@@ -116,12 +118,12 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
     public function newThrowsTag(
         array $types = [],
         ?string $description = null
-    ): ThrowsTag {
+    ): self {
         $tag = new ThrowsTag($types, $description);
 
         $this->setTag($tag);
 
-        return $tag;
+        return $this;
     }
 
     /**
@@ -131,11 +133,11 @@ class DocBlockGenerator extends Laminas_DocBlockGenerator
         ?string $variableName = null,
         array $types = [],
         ?string $description = null
-    ): VarTag {
+    ): self {
         $tag = new VarTag($variableName, $types, $description);
 
         $this->setTag($tag);
 
-        return $tag;
+        return $this;
     }
 }

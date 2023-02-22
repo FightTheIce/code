@@ -12,6 +12,7 @@ use Laminas\Code\Generator\TypeGenerator;
 class ClassGenerator extends Laminas_ClassGenerator
 {
     use Traits\DocBlockerTrait;
+    use Traits\ImposeFtiTrait;
 
     /**
      * @param array<\Laminas\Code\Generator\ParameterGenerator> $parameters
@@ -36,32 +37,41 @@ class ClassGenerator extends Laminas_ClassGenerator
         return $method;
     }
 
+    /**
+     * addTypedMethod
+     *
+     * A typed (return type) method to the generated class
+     *
+     * @access public
+     *
+     * @param string $name Method name
+     * @param string $desc Method description
+     * @param string $visibility Method visbility (public, private, protected)
+     * @param string $returnType
+     *
+     * @return \FightTheIce\Code\MethodGenerator
+     */
     public function addTypedMethod(
         string $name,
         string $desc,
         string $visibility,
-        ?string $returnType = null
+        string $returnType
     ): MethodGenerator {
-        if (is_null($returnType)) {
-            $returnType = 'mixed';
-        }
-
         $method = $this->newMethodGenerator($name);
         $method->setVisibility($visibility);
+        $method->setReturnType($returnType);
         $method->setDocBlockShortDescription($name);
         $method->setDocBlockLongDescription($desc);
-        $method->imposeFTIDocBlock()->newGenericTag('access', $visibility);
 
-        $method->setReturnType($returnType);
-
-        $rTypes = [];
-        if (substr($returnType, 0, 1) === '?') {
-            $rTypes = [substr($returnType, 1),'null'];
-        } else {
-            $rTypes = explode('|', $returnType);
-        }
-
-        $method->imposeFTIDocBlock()->newReturnTag($rTypes, null);
+        $method->imposeFTIDocBlock()
+            ->newGenericTag('access', $visibility)
+            ->newReturnTag(
+                Utils::createTypesArrayResolvedUses(
+                    $returnType,
+                    $this
+                ),
+                null
+            );
 
         return $method;
     }
@@ -80,5 +90,10 @@ class ClassGenerator extends Laminas_ClassGenerator
         $this->addPropertyFromGenerator($property);
 
         return $property;
+    }
+
+    public function hasNamespaceName(): bool
+    {
+        return ! is_null($this->getDocBlock());
     }
 }

@@ -11,50 +11,8 @@ use Laminas\Stdlib\ArrayObject as StdlibArrayObject;
 
 class PropertyGenerator extends Laminas_PropertyGenerator
 {
-    /**
-     * @param array<\Laminas\Code\Generator\DocBlock\Tag\TagInterface> $tags
-     *
-     * @return DocBlockGenerator
-     */
-    public function newDocBlockGenerator(
-        ?string $shortDescription = null,
-        ?string $longDescription = null,
-        array $tags = []
-    ): DocBlockGenerator {
-        $docblock = new DocBlockGenerator(
-            $shortDescription,
-            $longDescription,
-            $tags
-        );
-
-        $this->setDocBlock($docblock);
-
-        return $docblock;
-    }
-
-    public function setDocBlockShortDescription(string $desc): self
-    {
-        $docblock = $this->getDocBlock();
-        if (is_null($docblock)) {
-            $docblock = new DocBlockGenerator();
-        }
-
-        $docblock->setShortDescription($desc);
-
-        return $this;
-    }
-
-    public function setDocBlockLongDescription(string $desc): self
-    {
-        $docblock = $this->getDocBlock();
-        if (is_null($docblock)) {
-            $docblock = new DocBlockGenerator();
-        }
-
-        $docblock->setLongDescription($desc);
-
-        return $this;
-    }
+    use Traits\DocBlockerTrait;
+    use Traits\ImposeFtiTrait;
 
     /**
      * @param mixed                                 $value

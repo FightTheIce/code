@@ -62,6 +62,11 @@ trait DocBlockerTrait
         return $this->getFTIDocBlock();
     }
 
+    public function hasDocBlock(): bool
+    {
+        return ! is_null($this->getDocBlock());
+    }
+
     protected function getFTIDocBlock(): DocBlockGenerator
     {
         if ($this->docBlock instanceof DocBlockGenerator) {
